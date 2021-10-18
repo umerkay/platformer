@@ -509,37 +509,37 @@
 			}
 			requestAnimationFrame(update);
 		}
-		player2Canvas.onmousedown = function (e) {
-			//mouse = defineObj(mouse,{ax:e.x,ay:e.y});
-			//console.log(mouse);
-			mouse.Clicked = true;
-			mouse.ax = mouse.x; mouse.ay = mouse.y;
-		};
-		player2Canvas.onmouseup = function (e) {
-			mouse.Clicked = false;
-			box = {};
-			box.width = Math.abs(mouse.x - mouse.ax);
-			box.height = Math.abs(mouse.y - mouse.ay);
-			box.isMovable = false;
-			box.doesFall = false;
-			if (mouse.x > mouse.ax) { box.x = mouse.ax; } else { box.x = mouse.x }
-			if (mouse.y > mouse.ay) { box.y = mouse.ay; } else { box.y = mouse.y }
-			box = defineObj(rect_ttt, box);
-			currWorld.boxes.push(defineObj(rect_ttt, box));
-		};
+		// player2Canvas.onmousedown = function (e) {
+		// 	//mouse = defineObj(mouse,{ax:e.x,ay:e.y});
+		// 	//console.log(mouse);
+		// 	mouse.Clicked = true;
+		// 	mouse.ax = mouse.x; mouse.ay = mouse.y;
+		// };
+		// player2Canvas.onmouseup = function (e) {
+		// 	mouse.Clicked = false;
+		// 	box = {};
+		// 	box.width = Math.abs(mouse.x - mouse.ax);
+		// 	box.height = Math.abs(mouse.y - mouse.ay);
+		// 	box.isMovable = false;
+		// 	box.doesFall = false;
+		// 	if (mouse.x > mouse.ax) { box.x = mouse.ax; } else { box.x = mouse.x }
+		// 	if (mouse.y > mouse.ay) { box.y = mouse.ay; } else { box.y = mouse.y }
+		// 	box = defineObj(rect_ttt, box);
+		// 	currWorld.boxes.push(defineObj(rect_ttt, box));
+		// };
 		function updatePlain(plain, items) {
 			plain.clearRect(0, 0, width, height);
 			//plain.fillText(mouse.x + ", " + mouse.y,50,50);
-			if (mouse.Clicked == true) {
-				widthb = Math.abs(mouse.x - mouse.ax);
-				heightb = Math.abs(mouse.y - mouse.ay);
-				if (mouse.x > mouse.ax) { xb = mouse.ax; } else { xb = mouse.x }
-				if (mouse.y > mouse.ay) { yb = mouse.ay; } else { yb = mouse.y }
-				plain.fillRect(xb, yb, widthb, heightb);
-			}
-			else {
-				plain.fillRect(mouse.x, mouse.y, mouse.grid, mouse.grid);
-			}
+			// if (mouse.Clicked == true) {
+			// 	widthb = Math.abs(mouse.x - mouse.ax);
+			// 	heightb = Math.abs(mouse.y - mouse.ay);
+			// 	if (mouse.x > mouse.ax) { xb = mouse.ax; } else { xb = mouse.x }
+			// 	if (mouse.y > mouse.ay) { yb = mouse.ay; } else { yb = mouse.y }
+			// 	plain.fillRect(xb, yb, widthb, heightb);
+			// }
+			// else {
+			// 	plain.fillRect(mouse.x, mouse.y, mouse.grid, mouse.grid);
+			// }
 
 			for (i in currWorld.boxes) {
 				if (currWorld.boxes[i].doRender != false) {
