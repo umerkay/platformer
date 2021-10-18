@@ -1,0 +1,723 @@
+<html>
+<style>
+	h1 {
+		font-family: Impact, Charcoal, sans-serif;
+
+	}
+
+	body {
+		-webkit-transition-duration: 0.3s;
+		/* Safari */
+		transition-duration: 0.3s;
+		background-color: #2b2b2b;
+
+		font-family: Charcoal, Arial;
+		color: white;
+	}
+
+	input.rounded {
+		border: none;
+		-moz-border-radius: 3px;
+		-webkit-border-radius: 3px;
+		border-radius: 3px;
+		outline: none;
+	}
+
+	#message {}
+
+	canvas {
+		border: 0px solid #000;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		font-family: Impact, Charcoal, sans-serif;
+	}
+
+	.levelButton {
+		max-width: 50px;
+		max-height: 50px;
+		min-width: 50px;
+		min-height: 50px;
+		font-size: 30;
+
+		font-family: Impact, Charcoal, sans-serif;
+		outline: none;
+		border: 0px solid #9b9b9b;
+		border-radius: 20px;
+		background-color: #efc323;
+		color: white;
+		text-align: center;
+		text-decoration: none;
+		border-radius: 3px;
+		border: none;
+		padding: 4px 8px;
+		-webkit-transition-duration: 0.3s;
+		/* Safari */
+		transition-duration: 0.3s;
+		box-shadow: 0 3px #a58718;
+	}
+
+	.cust {
+		max-width: 30px;
+		max-height: 30px;
+		min-width: 30px;
+		min-height: 30px;
+		font-size: 20;
+		background-color: #00a53e;
+
+
+	}
+
+	body {
+		font-family: Charcoal, sans-serif;
+
+	}
+
+	.menuButton {
+		margin: 10px 10px;
+		font-size: 30;
+		font-family: Impact, Charcoal, sans-serif;
+		outline: none;
+		border: 0px solid #9b9b9b;
+		border-radius: 20px;
+		background-color: #efc323;
+		color: white;
+		text-align: center;
+		text-decoration: none;
+		border-radius: 3px;
+		border: none;
+		padding: 5px 15px;
+		-webkit-transition-duration: 0.3s;
+		/* Safari */
+		transition-duration: 0.3s;
+		box-shadow: 0 3px #a58718;
+
+	}
+
+	.disabled {
+		background-color: #bbbbbb;
+		box-shadow: 0 3px #aaaaaa;
+	}
+
+	.levelsMenu {
+		position: absolute;
+		top: 5%;
+		left: 20%;
+		table-layout: fixed;
+		width: 60%;
+	}
+
+	.about_Menu {
+		position: absolute;
+		top: 30%;
+		left: 20%;
+		table-layout: fixed;
+		width: 60%;
+		color: white;
+	}
+
+	.inLevelMenu {
+		position: absolute;
+		top: 2%;
+		left: 20%;
+		table-layout: fixed;
+		width: 60%;
+	}
+
+	td {
+		text-align: center;
+	}
+
+	#tileCanvas,
+	#tileCavas {
+		background-color: #cccccc
+	}
+
+	.menuButton:hover,
+	.levelButton:hover {
+		background-color: #ad8e1c;
+		box-shadow: 0 0px #44380b;
+		transform: translateY(2px);
+	}
+
+	.menuButton:disabled,
+	.levelButton:disabled {
+		background-color: #a3a3a3;
+		box-shadow: 0 0px #ffffff;
+		transform: translateY(0px);
+	}
+
+	.player1:hover,
+	.player2:hover {
+		background-color: #efc325;
+		box-shadow: 0 3px #5b5b5b;
+		transform: translateY(0px);
+	}
+
+	.player1,
+	.player2 {
+		box-shadow: 0 3px #5b5b5b;
+	}
+
+	input {
+		width: 250px;
+		height: 45px;
+		text-align: center;
+		font-size: 30px;
+		font-family: Charcoal, Arial;
+		color: white;
+		background-color: #1e1e1e;
+		border: none;
+	}
+
+	.cust {
+		box-shadow: 0 0px #008733;
+	}
+
+	#skins {
+		box-shadow: 0 3px #008733;
+	}
+
+	.cust:hover,
+	#skins:hover {
+		box-shadow: 0 0px #008733;
+	}
+
+	#skinSelector1,
+	#skinSelector2 {
+		outline: none;
+		border: none;
+		background-color: black;
+	}
+</style>
+
+<head>
+	<title>Simple Platformer</title>
+</head>
+
+<body>
+	<table style="top: 71%; left: 50%; font-size:30px; margin-left: -257px; position: absolute">
+		<tr>
+			<!--<td><input id="skinSelector1" type="range" name="points" min="0" max="10">-->
+		<tr>
+			<td>
+				<button onClick='customize(p1,true,false)' class='levelButton cust'>C</button>
+				<button onClick='customize(p1,false,true)' class='levelButton cust'>S</button>
+				<button style="margin-right: 142px;" onClick='customize(p1,true,true)'
+					class='levelButton cust'>?</button>
+				<button style="margin-left: 142px;" onClick='customize(p2,true,true)'
+					class='levelButton cust'>?</button>
+				<button onClick='customize(p2,false,true)' class='levelButton cust'>S</button>
+				<button onClick='customize(p2,true,false)' class='levelButton cust'>C</button>
+		</tr>
+		<tr>
+			<td><input style="margin-top: 15px;" id="name1" value="P1 Name" class="rounded input" />
+				<input id="name2" value="P2 Name" class="rounded input" />
+		</tr>
+		<tr>
+			<td>
+				<button align="center" id="message" onClick='levelSelect(levels[0])' class="menuButton">HTML5
+					Pl►tformer</button>
+				<!--button align="center" id="skins" class="menuButton" style='background-color: #00a53e;'>Skins ►</button-->
+				<!-- <button align="center" id="skins" onClick="location.href='builder.html';" class="menuButton" style='background-color: #00a53e;'>Build #</button> -->
+
+	</table>
+
+
+	<canvas id="tileCanvas"></canvas>
+	<canvas id="moveTileCanvas"></canvas>
+	<canvas id="player1Canvas"></canvas>
+	<canvas id="player2Canvas"></canvas>
+	<table align="center" id="menu"></table>
+	<canvas style="position: absolute; top: 42%; left: 50%; margin-left: 0px;" id="dpCanvas" />
+	<script>
+		function setCanvasHeights() {
+			player1Canvas.width = width;
+			player1Canvas.height = height;
+			moveTileCanvas.height = height;
+			moveTileCanvas.width = width;
+			player2Canvas.width = width;
+			player2Canvas.height = height;
+			tileCanvas.width = width;
+			tileCanvas.height = height;
+			if (width == 0) {
+				dp.width = 700;
+				dp.height = 300;
+			} else {
+				dp.width = 0; dp.height = 0;
+			}
+		}
+		dp = document.getElementById("dpCanvas");
+		dpctx = dp.getContext("2d");
+		dp.width = 700;
+		dp.height = 300;
+		levelsMenu = "<tr><td><button onClick='levelSelect(levels[1])' class='levelButton'>1</button><td><button onClick='levelSelect(levels[2])' class='levelButton'>2</button><td><button disabled onClick='levelSelect(levels[3])' class='levelButton'>3</button></tr>"
+		//<td><button onClick='levelSelect(levels[4])' class='levelButton'>4</button><td><button onClick='levelSelect(levels[5])' class='levelButton'>5</button>
+		inLevelMenu = "<tr><td><span class='menuButton player2'>Err</span><button onClick='exitLevel()' class='menuButton'>Q U I T</button><button onClick='pauseLevel()' id='pButton' class='menuButton pause'>ll</button><span class='menuButton player1'>Err</span></td>";
+		//inLevelMenu2 = "<tr><td><button onClick='exitLevel()' class='menuButton'>Q U I T</button><button onClick='pauseLevel()' class='menuButton pause'>►</button></td>";
+		about_Menu = "<tr><td><h2>This is a basic platformer puzzle style game built purely in HTML 5 (HTML,CSS,JAVASCRIPT).</tr><tr><td><h2>The game should be played by two players using the Arrow keys and the WASD keys.</tr><tr><td><h2>The game is a project by <a href='https://twitter.com/umerkk164' target='_blank'>@umerkk164</a>.</tr><tr><td>It has been aimed at optimization and smooth running to occupy as less memory as possible."
+		player1Canvas = document.getElementById("player1Canvas")
+		p1ctx = player1Canvas.getContext("2d")
+		moveTileCanvas = document.getElementById("moveTileCanvas")
+		mtctx = moveTileCanvas.getContext("2d")
+		player2Canvas = document.getElementById("player2Canvas")
+		p2ctx = player2Canvas.getContext("2d")
+		tileCanvas = document.getElementById("tileCanvas")
+		tctx = tileCanvas.getContext("2d")
+		width = 0;
+		height = 0;
+		setCanvasHeights();
+		width = 1366;
+		height = 768;
+	</script>
+	<script src="defaults.js"></script>
+	<script src="definitions.js"></script>
+	<script>
+		defineLevels();
+		levelsMenuOpen = true;
+		update();
+		document.getElementById("menu").innerHTML = levelsMenu;
+		document.getElementById("menu").className = "levelsMenu"; levelsMenuOpen = true;
+		customize(p1, false, true);
+		customize(p2, false, true);
+		function clientMessage(message) {
+			document.getElementById("message").innerHTML = message;
+		}
+		function customize(p, c, s) {
+			if (s) {
+				p.skin = (p.skin + 1) % (playerSkins.length);
+				p.draw = playerSkins[Math.floor(Math.random() * playerSkins.length)];
+			}
+			if (c) {
+				p.color = "#" + ('00000' + (Math.random() * (1 << 24) | 0).toString(16)).slice(-6);
+			}
+		}
+		function exitLevel(message) {
+			//currWorld = null;
+			defineLevels();
+			document.getElementById("menu").innerHTML = levelsMenu;
+			document.getElementById("menu").className = "levelsMenu";
+			levelsMenuOpen = true;
+
+			tctx.clearRect(0, 0, width, height);
+			mtctx.clearRect(0, 0, width, height);
+			p1ctx.clearRect(0, 0, width, height);
+			p2ctx.clearRect(0, 0, width, height);
+			height = 0; width = 0;
+			setCanvasHeights();
+			document.getElementById("message").innerHTML = message || "HTML5 Pl►tformer";
+		}
+		function levelSelect(level) {
+			currWorld = level;
+			initiate();
+		}
+		function initiate() {
+			width = 1366;
+			height = 768;
+			document.getElementById("menu").innerHTML = inLevelMenu;
+			document.getElementById("menu").className = "inLevelMenu";
+			if (currWorld == levels[0]) {
+				document.getElementById("menu").className = "about_Menu";
+				document.getElementById("menu").innerHTML += about_Menu;
+			}
+			levelsMenuOpen = false;
+			(function () {
+				var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+				window.requestAnimationFrame = requestAnimationFrame;
+			})();
+
+			player2 = defineObj(p2, { velX: 0, x: currWorld.player[2], y: currWorld.player[3], width: 32, height: 32, });
+			player1 = defineObj(p1, { velX: 0, x: currWorld.player[0], y: currWorld.player[1], width: 32, height: 32, });
+
+			keys = [];
+
+			setCanvasHeights();
+			document.body.style.backgroundColor = currWorld.background;
+			//draw tiles
+			tctx.fillStyle = "black";
+			//ctx.beginPath();
+			currWorld.boxes.push(player1);
+			currWorld.boxes.push(player2);
+
+			for (i in currWorld.boxes) {
+				if (currWorld.boxes[i].child != null) {
+					for (g in currWorld.boxes) {
+						if (currWorld.boxes[i].child == currWorld.boxes[g].tag) {
+							currWorld.boxes[i].childID = g; break;
+						}
+					}
+				}
+				if (currWorld.boxes[i].doRender != false) {
+					currWorld.boxes[i].draw(currWorld.boxes[i].ctx, currWorld.boxes[i].color, currWorld.boxes[i].x, currWorld.boxes[i].y, currWorld.boxes[i].width, currWorld.boxes[i].height, currWorld.boxes[i])
+
+				}
+			}
+			for (i in currWorld.items) {
+				if (currWorld.items[i].doRender != false) {
+					currWorld.items[i].draw(currWorld.items[i].ctx, currWorld.items[i].color, currWorld.items[i].x, currWorld.items[i].y, currWorld.items[i].width, currWorld.items[i].height, currWorld.items[i])
+				}
+			}
+
+			document.body.addEventListener("keydown", function (e) {
+				if (e.keyCode == 32 && !keys[e.keyCode]) { pauseLevel(); }
+				keys[e.keyCode] = true;
+			});
+
+			document.body.addEventListener("keyup", function (e) {
+				//console.log(e.keyCode)
+				keys[e.keyCode] = false;
+			});
+			updateGUI();
+			//update();
+
+		}
+		player2Canvas.addEventListener('mousemove', function (evt) {
+			console.log("hi");
+			var rect = player2Canvas.getBoundingClientRect();
+			/*mouse = {
+			  x: Math.floor((evt.clientX - rect.left)*10)/10,
+			  y: Math.floor((evt.clientY - rect.top)*10)/10
+			};*/
+			mouse.x = Math.floor((evt.clientX - rect.left));
+			mouse.y = Math.floor((evt.clientY - rect.top));
+			mouse.x -= (mouse.x % mouse.grid);
+			mouse.y -= (mouse.y % mouse.grid);
+		}, false);
+		mouse = { x: 0, y: 0, ax: 0, ay: 0, grid: 5 };
+		function update() {
+			if (!levelsMenuOpen) {
+				/*tctx.clearRect(10,10,150,20);
+				tctx.fillText(Math.floor(player1.velX*10)/10,20,30);
+				tctx.fillText(Math.floor(player1.velY),100,30);*/
+				if (currWorld.isComplete()) {
+					if (levels[currWorld.level + 1] != null) {
+						levelsMenuOpen = true; //setTimeout(levelSelect,100,levels[currWorld.level+1]);
+						levelSelect(levels[currWorld.level + 1]);
+					} else {
+						exitLevel("Congrats! More levels soon?");
+					}
+				} else {
+					// check keys
+					if (keys[38]) {
+						// up arrow or space
+						if (player1.velY == 0) {
+							player1.jumping = true;
+							player1.grounded = false;
+							player1.velY = -player1.speed * 2;
+						}
+					}
+					if (keys[39]) {
+						// right arrow
+						if (player1.velX < player1.speed) {
+							player1.velX += 1;
+						}
+					}
+					if (keys[17] && keys[46]) {
+						//levelsMenuOpen=true;
+						//setTimeout(exitLevel,800,"CTRl + DEL is DEATH");
+						exitLevel("CTRL + DEl is QUIT")
+					}
+					if (keys[37]) {
+						// left arrow         
+						if (player1.velX > -player1.speed) {
+							player1.velX -= 1;
+						}
+					}
+					if (keys[87]) {
+						// up arrow or space
+						if (player2.velY == 0) {
+							player2.jumping = true;
+							player2.grounded = false;
+							player2.velY = -player2.speed * 2;
+						}
+					}
+					if (keys[40]) {
+						player1.velX *= 0.99;
+						if (player1.velY < 0) { player1.velY += 0.2; }
+					}
+					if (keys[83]) {
+						player2.velX *= currWorld.friction;
+						if (player2.velY > 0) { player2.velY -= 0.2; }
+					}
+					if (keys[68]) {
+						// right arrow
+						if (player2.velX < player2.speed) {
+							player2.velX += 1;
+						}
+					}
+					if (keys[65]) {
+						// left arrow         
+						if (player2.velX > -player2.speed) {
+							player2.velX -= 1;
+						}
+					}
+					if (keys[49]) {
+						mouse.grid = 5;
+					}
+					if (keys[50]) {
+						mouse.grid = 10;
+					}
+					if (keys[51]) {
+						mouse.grid = 15;
+					}
+					if (keys[52]) {
+						mouse.grid = 20;
+					}
+					for (i in currWorld.boxes) {
+						if (currWorld.boxes[i].clickable == false && currWorld.boxes[i].contClick == true) {
+							currWorld.boxes[i].contClick = false;
+							setTimeout(currWorld.boxes[i].unClick, 400, currWorld.boxes[i]);
+						}
+						if (currWorld.boxes[i].target == "Player1") { currWorld.boxes[i].color = player2.color; }
+						if (currWorld.boxes[i].target == "Player2") { currWorld.boxes[i].color = player1.color; }
+
+						if (currWorld.boxes[i].doUpdate) {
+							updateObjPos(currWorld.boxes[i]);
+						}
+					}
+					doUpdate = false;
+					currWorld.items = currWorld.items.filter(function (point) {
+						if (doesCollide(point, player1) && point.player != null && point.player == player1.name) {
+							//updatePlain(point.ctx);
+							console.log(point);
+							point.onCollect(player1);
+							doUpdate = true;
+							return false;
+						} else if (doesCollide(point, player2) && point.player != null && point.player == player2.name) {
+							//updatePlain(point.ctx);
+							point.onCollect(player2);
+							doUpdate = true;
+							return false;
+						} else {
+							return true;
+						}
+					});
+					if (doUpdate) {
+						updatePlain(tctx, true);
+					}
+					updatePlain(mtctx, true); //updatePlain(p1ctx); updatePlain(p2ctx);
+
+
+				}
+			} else if (dp.width > 0) {
+				dpctx.clearRect(0, 0, 800, 300);
+				//dpctx.fillRect(0,0,100,100);
+				p1.draw(dpctx, p1.color, 0, 0, 300, 300, p1);
+				p2.draw(dpctx, p2.color, 400, 0, 300, 300, p2);
+
+			}
+			requestAnimationFrame(update);
+		}
+		player2Canvas.onmousedown = function (e) {
+			//mouse = defineObj(mouse,{ax:e.x,ay:e.y});
+			//console.log(mouse);
+			mouse.Clicked = true;
+			mouse.ax = mouse.x; mouse.ay = mouse.y;
+		};
+		player2Canvas.onmouseup = function (e) {
+			mouse.Clicked = false;
+			box = {};
+			box.width = Math.abs(mouse.x - mouse.ax);
+			box.height = Math.abs(mouse.y - mouse.ay);
+			box.isMovable = false;
+			box.doesFall = false;
+			if (mouse.x > mouse.ax) { box.x = mouse.ax; } else { box.x = mouse.x }
+			if (mouse.y > mouse.ay) { box.y = mouse.ay; } else { box.y = mouse.y }
+			box = defineObj(rect_ttt, box);
+			currWorld.boxes.push(defineObj(rect_ttt, box));
+		};
+		function updatePlain(plain, items) {
+			plain.clearRect(0, 0, width, height);
+			//plain.fillText(mouse.x + ", " + mouse.y,50,50);
+			if (mouse.Clicked == true) {
+				widthb = Math.abs(mouse.x - mouse.ax);
+				heightb = Math.abs(mouse.y - mouse.ay);
+				if (mouse.x > mouse.ax) { xb = mouse.ax; } else { xb = mouse.x }
+				if (mouse.y > mouse.ay) { yb = mouse.ay; } else { yb = mouse.y }
+				plain.fillRect(xb, yb, widthb, heightb);
+			}
+			else {
+				plain.fillRect(mouse.x, mouse.y, mouse.grid, mouse.grid);
+			}
+
+			for (i in currWorld.boxes) {
+				if (currWorld.boxes[i].doRender != false) {
+					if (plain == currWorld.boxes[i].ctx) {
+						currWorld.boxes[i].draw(currWorld.boxes[i].ctx, currWorld.boxes[i].color, currWorld.boxes[i].x, currWorld.boxes[i].y, currWorld.boxes[i].width, currWorld.boxes[i].height, currWorld.boxes[i])
+						//currWorld.boxes[i].updateToken==false;
+					}
+				}
+			}
+			if (items == true) {
+				for (i in currWorld.items) {
+					if (currWorld.items[i].doRender != false) {
+						currWorld.items[i].draw(currWorld.items[i].ctx, currWorld.items[i].color, currWorld.items[i].x, currWorld.items[i].y, currWorld.items[i].width, currWorld.items[i].height, currWorld.items[i])
+					}
+				}
+			}
+		}
+		function updateGUI() {
+			player1.display = document.getElementById("name1").value;
+			player2.display = document.getElementById("name2").value;
+			document.getElementsByClassName('menuButton player1')[0].innerHTML = player1.display + " : " + player1.lives + " × ❤";
+			document.getElementsByClassName('menuButton player2')[0].innerHTML = player2.display + " : " + player2.lives + " × ❤";
+			document.getElementsByClassName('menuButton player1')[0].style.backgroundColor = player1.color;
+			document.getElementsByClassName('menuButton player2')[0].style.backgroundColor = player2.color;
+		}
+		function updateObjPos(obj) {
+			x = obj.x; y = obj.y; w = obj.width; h = obj.height; color = obj.color; hp = obj.hp;
+			if (obj.doesFall) { obj.velY += currWorld.gravity; }
+			if (obj.velY > -0.4 && obj.velY < 0.4 && obj.friction != false) {
+				if (obj.shape == "circle") { obj.velX *= Math.min(0.99, (currWorld.friction + 0.13)); } else { obj.velX *= currWorld.friction; }
+			}
+			if (obj.velX < 0.1 && obj.velX > -0.1) { obj.velX = 0; }
+			obj.x = Math.floor((obj.x + obj.velX) * 1000) / 1000;
+			obj.y = Math.floor((obj.y + obj.velY) * 1000) / 1000;
+			if (obj.onUpdate != null) {
+				obj.onUpdate();
+			}
+			if (obj.tag == null) {
+
+				for (o in currWorld.boxes) {
+					if (currWorld.boxes[o] != obj && currWorld.boxes[o].collide == true && obj.collide == true) {
+						dir = colCheck(obj, currWorld.boxes[o]);
+
+						/*if(dir=="b" && obj.clickable==false && isPressed==false) {
+						isPressed = true;
+						}*/
+						if (dir == "l" || dir == "r") {
+							if (currWorld.boxes[o].isMovable) {
+								if (dir == "l" && Math.abs(currWorld.boxes[o].velX) < Math.abs(obj.velX)) { obj.velX /= 1.2; currWorld.boxes[o].velX = obj.velX; }
+								else if (dir == "r" && Math.abs(currWorld.boxes[o].velX) < Math.abs(obj.velX)) { obj.velX /= 1.2; currWorld.boxes[o].velX = obj.velX; }
+							} else {
+								obj.velX *= -1 * currWorld.friction
+							}
+						} if (dir == "b") {
+
+							if (currWorld.boxes[o].clickable && obj.velY > 2) {
+								currWorld.boxes[o].onClick(obj, currWorld.boxes[o]);
+							}
+							if (currWorld.boxes[o].clickable == false) {
+								//currWorld.boxes[o].onClick(obj,currWorld.boxes[o]);
+								currWorld.boxes[o].contClick = true;
+							}
+							obj.velY = Math.min(-1 * (obj.velY - currWorld.boxes[o].bounce), 0);
+
+							if (obj.name != null && obj.name == currWorld.boxes[o].target) {
+								if (obj.immune == false) {
+	/*obj.hp--;
+	if(obj.hp<=0){*/setTimeout(killPlayer, 1200, obj, obj.color);
+									levelsMenuOpen = true; obj.color = "white";
+									break;
+								}
+								/*}*/
+
+							}
+							if (Math.abs(currWorld.boxes[o].velX) > Math.abs(obj.velX) && (currWorld.boxes[o] != player1 && currWorld.boxes[o] != player2) && currWorld.boxes[o].mode != "auto") { obj.velX = currWorld.boxes[o].velX; }
+						} else if (dir == "t") {
+							//if(currWorld.boxes[o].clickable==false) {currWorld.boxes[o].unClick(currWorld.boxes[o]);}
+							//obj.velX/=1.2; currWorld.boxes[o].velX = 3;
+							if (currWorld.boxes[o].isMovable) { currWorld.boxes[o].velY = obj.velY; } else { obj.velY *= -0.9; }
+						}
+					}
+					/*if(currWorld.boxes[o].charge*obj.charge != 0 && obj.charge != currWorld.boxes[o].charge && getDistance(currWorld.boxes[o],obj)<150) {
+					if()
+					}*/
+				}
+				//obj.ctx.fillRect(obj.x, obj.y, obj.width, obj.height);
+
+				/*if(obj.hp==hp) {
+				obj.hp=2;
+				}	*/
+			} else if (obj.velX != 0 || obj.velY != 0) {
+				if (obj.mode == "auto") {
+					if (obj.x < obj.minX || obj.x > obj.maxX) {
+						obj.velX *= -1;
+					}
+					if (obj.y > obj.maxY || obj.y < obj.minY) {
+						obj.velY *= -1;
+					}
+				} else {
+					if (obj.x > obj.maxX || obj.y > obj.maxY) {
+						obj.velX = obj.dvelX || 0; obj.velY = obj.dvelY || 0; obj.x = obj.maxX || obj.x; obj.y = obj.maxY || obj.y;
+					}
+					if (obj.x < obj.minX || obj.y < obj.minY) {
+						obj.velX = obj.dvelX || 0; obj.velY = obj.dvelY || 0; obj.x = obj.minX || obj.x; obj.y = obj.minY || obj.y;
+					}
+				}
+
+			}
+		}
+		function killPlayer(obj, color) {
+			//obj.hp = 2;
+
+			obj.lives--;
+			console.log(obj.lives);
+			if (obj.lives == 0) {
+				exitLevel(obj.display + " died all of it's lives!");
+			}
+			else {
+				obj.color = color || "#" + ('00000' + (Math.random() * (1 << 24) | 0).toString(16)).slice(-6);
+				updateGUI();
+				if (obj == player1) { obj.x = currWorld.player[0]; obj.y = currWorld.player[1]; obj.velX = 0; obj.velY = 0; }
+				else if (obj == player2) { obj.x = currWorld.player[2]; obj.y = currWorld.player[3]; obj.velX = 0; obj.velY = 0; }
+				levelsMenuOpen = false; //update();
+
+			}
+
+		}
+		function doesCollide(shapeA, shapeB) {
+			var vX = (shapeA.x + (shapeA.width / 2)) - (shapeB.x + (shapeB.width / 2)),
+				vY = (shapeA.y + (shapeA.height / 2)) - (shapeB.y + (shapeB.height / 2)),
+				// add the half widths and half heights of the objects
+				hWidths = (shapeA.width / 2) + (shapeB.width / 2),
+				hHeights = (shapeA.height / 2) + (shapeB.height / 2);
+			if (Math.abs(vX) < hWidths && Math.abs(vY) < hHeights) { return true; } else { return false; }
+		}
+		function colCheck(shapeA, shapeB) {
+			colDir = null;
+			// get the vectors to check against
+			var vX = (shapeA.x + (shapeA.width / 2)) - (shapeB.x + (shapeB.width / 2)),
+				vY = (shapeA.y + (shapeA.height / 2)) - (shapeB.y + (shapeB.height / 2)),
+				// add the half widths and half heights of the objects
+				hWidths = (shapeA.width / 2) + (shapeB.width / 2),
+				hHeights = (shapeA.height / 2) + (shapeB.height / 2);
+
+			// if the x and y vector are less than the half width or half height, they we must be inside the object, causing a collision
+			if (Math.abs(vX) < hWidths && Math.abs(vY) < hHeights) {         // figures out on which side we are colliding (top, bottom, left, or right)
+				var oX = hWidths - Math.abs(vX), oY = hHeights - Math.abs(vY);
+				if (oX >= oY) {
+					if (vY > 0) {
+						colDir = "t";
+						shapeA.y += oY;
+					} else {
+						colDir = "b";
+						shapeA.y -= oY;
+					}
+				} else {
+					if (vX > 0) {
+						colDir = "l";
+						shapeA.x += oX;
+					} else {
+						colDir = "r";
+						shapeA.x -= oX;
+					}
+				}
+			}
+			return colDir;
+		}
+		function pauseLevel() {
+			if (levelsMenuOpen == true) {
+				//document.getElementById("menu").innerHTML = inLevelMenu;
+				document.getElementsByClassName('menuButton pause')[0].innerHTML = "ll";
+				levelsMenuOpen = false; //update();
+			} else {
+				document.getElementsByClassName('menuButton pause')[0].innerHTML = "►";
+				levelsMenuOpen = true;
+			}
+		}
+		function getMousePos(canvas, evt) {
+		}
+	</script>
+</body>
